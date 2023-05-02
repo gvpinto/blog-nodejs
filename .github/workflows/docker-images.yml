@@ -24,8 +24,8 @@ jobs:
         name: Build and push posts image
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./posts/Dockerfile
+          context: ./posts
+          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/posts:latest
 
@@ -33,32 +33,32 @@ jobs:
         name: Build and push comments image
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./comments/Dockerfile
+          context: ./comments
+          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/comments:latest
       -
         name: Build and push query image
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./query/Dockerfile
+          context: ./query
+          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/query:latest
       -
         name: Build and push moderation image
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./moderation/Dockerfile
+          context: ./moderation
+          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/moderation:latest
       -
         name: Build and push event-bus image
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./event-bus/Dockerfile
+          context: ./event-bus
+          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/event-bus:latest
 
