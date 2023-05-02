@@ -25,7 +25,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./posts
-          file: Dockerfile
+          file: ./posts/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/posts:latest
 
@@ -34,7 +34,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./comments
-          file: ./Dockerfile
+          file: ./comments/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/comments:latest
       -
@@ -42,7 +42,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./query
-          file: ./Dockerfile
+          file: ./query/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/query:latest
       -
@@ -50,7 +50,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./moderation
-          file: ./Dockerfile
+          file: ./moderation/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/moderation:latest
       -
@@ -58,7 +58,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./event-bus
-          file: ./Dockerfile
+          file: ./event-bus/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/event-bus:latest
 
