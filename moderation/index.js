@@ -9,7 +9,7 @@ app.post('/events', async (req, res, next) => {
     const { type, data } = req.body;
     if (type === "CommentCreated") {
         const status = data.content.includes("orange") ? "rejected" : "approved";
-        await axios.post('http://piercingstripes-linux:4005/events', {
+        await axios.post('http://event-bus-srv:4005/events', {
             type: "CommentModerated",
             data: {
                 id: data.id,

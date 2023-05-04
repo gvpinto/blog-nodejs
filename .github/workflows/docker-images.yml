@@ -3,6 +3,8 @@ name: Build Docker Image and Publish
 on:
   push:
     branches: [ main ]
+    tags:
+      - 'v*'
 
 jobs:
   dump_contexts_to_log:
@@ -18,6 +20,12 @@ jobs:
         name: Checkout
         uses: actions/checkout@v3
       -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/posts
+      -
         name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -30,41 +38,11 @@ jobs:
         name: Build and push posts image
         uses: docker/build-push-action@v4
         with:
-          context: ./posts
-          file: ./posts/Dockerfile
+          context: "{{defaultContext}}:posts"
+          file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/posts:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          #tags: ${{ secrets.DOCKERHUB_USERNAME }}/posts:latest
 
-      -
-        name: Build and push comments image
-        uses: docker/build-push-action@v4
-        with:
-          context: ./comments
-          file: ./comments/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/comments:latest
-      -
-        name: Build and push query image
-        uses: docker/build-push-action@v4
-        with:
-          context: ./query
-          file: ./query/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/query:latest
-      -
-        name: Build and push moderation image
-        uses: docker/build-push-action@v4
-        with:
-          context: ./moderation
-          file: ./moderation/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/moderation:latest
-      -
-        name: Build and push event-bus image
-        uses: docker/build-push-action@v4
-        with:
-          context: ./event-bus
-          file: ./event-bus/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/event-bus:latest
-
+ 
