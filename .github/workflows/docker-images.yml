@@ -2,10 +2,10 @@ name: Build Docker Image and Publish
 
 on:
   push:
-    branches: #[ main ]
-     - main
-    # tags:
-    #   - 'v*'
+    # branches: #[ main ]
+    #  - main
+    tags:
+      - 'v*'
 
 jobs:
 
@@ -18,7 +18,7 @@ jobs:
   build:
     strategy:
         matrix:
-            image: ['posts', 'comments']
+            image: ['posts', 'comments', 'query', 'moderation', 'event-bus']
 
     runs-on: ubuntu-latest
 
