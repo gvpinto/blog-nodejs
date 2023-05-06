@@ -2,12 +2,13 @@ name: Build Docker Image and Publish
 
 on:
   push:
-    #branches: #[ main ]
-    #  - main
-    tags:
-      - 'v*'
+    branches: #[ main ]
+     - main
+    # tags:
+    #   - 'v*'
 
 jobs:
+
   dump_contexts_to_log:
     runs-on: ubuntu-latest
     steps:
@@ -15,17 +16,32 @@ jobs:
         id: github_context_step
         run: echo '${{ toJSON(github) }}'
   build:
+    strategy:
+        matrix:
+            image: ['posts', 'comments']
+
     runs-on: ubuntu-latest
+
     steps:
       -
         name: Checkout
         uses: actions/checkout@v3
       -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      -
         name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/posts
+          images: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{matrix.image}}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
       -
         name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -39,46 +55,11 @@ jobs:
         name: Build and push posts image
         uses: docker/build-push-action@v4
         with:
-          context: "{{defaultContext}}:posts"
+          context: "{{defaultContext}}:${{matrix.image}}"
           file: ./Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          #tags: ${{ secrets.DOCKERHUB_USERNAME }}/posts:latest
-      -
-        name: Build and push comments image
-        uses: docker/build-push-action@v4
-        with:
-          context: "{{defaultContext}}:comments"
-          file: ./Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-      -
-        name: Build and push query image
-        uses: docker/build-push-action@v4
-        with:
-          context: "{{defaultContext}}:query"
-          file: ./Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-      -
-        name: Build and push moderation image
-        uses: docker/build-push-action@v4
-        with:
-          context: "{{defaultContext}}:moderation"
-          file: ./Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-      -
-        name: Build and push event-bus image
-        uses: docker/build-push-action@v4
-        with:
-          context: "{{defaultContext}}:event-bus"
-          file: ./Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          #tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{matrix.image}}:latest
+
  
