@@ -18,7 +18,7 @@ jobs:
   build:
     strategy:
         matrix:
-            image: ['posts', 'comments', 'query', 'moderation', 'event-bus']
+            image: ['client', 'posts', 'comments', 'query', 'moderation', 'event-bus']
 
     runs-on: ubuntu-latest
 

@@ -6,7 +6,7 @@ const PostCreate = () => {
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        await axios.post('http://piercingstripes-linux:4000/posts', {
+        await axios.post('http://posts.com/posts', {
             title
         });
         setTitle('');
