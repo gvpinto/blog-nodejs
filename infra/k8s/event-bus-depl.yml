@@ -15,7 +15,7 @@ spec:
       containers:
       - name: event-bus
         image: piercingstripes/event-bus:latest
-        imagePullPolicy: Always
+        #imagePullPolicy: Always
 ---
 apiVersion: v1
 kind: Service

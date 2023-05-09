@@ -1,0 +1,57 @@
+apiVersion: skaffold/v4beta5
+kind: Config
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: piercingstripes/client
+      context: client
+      sync:
+        manual:
+          - dest: .
+            src: "src/**/*.js"
+      docker:
+        dockerfile: Dockerfile            
+    - image: piercingstripes/comments
+      context: comments
+      sync:
+        manual:
+          - dest: .
+            src: "*.js"
+      docker:
+        dockerfile: Dockerfile
+    - image: piercingstripes/event-bus
+      context: event-bus
+      sync:
+        manual:
+          - dest: .
+            src: "*.js"
+      docker:
+        dockerfile: Dockerfile
+    - image: piercingstripes/moderation
+      context: moderation
+      sync:
+        manual:
+          - dest: .
+            src: "*.js"
+      docker:
+        dockerfile: Dockerfile        
+    - image: piercingstripes/posts
+      context: posts
+      sync:
+        manual:
+          - dest: .
+            src: "*.js"
+      docker:
+        dockerfile: Dockerfile      
+    - image: piercingstripes/query
+      context: query
+      sync:
+        manual:
+          - dest: .
+            src: "*.js"
+      docker:
+        dockerfile: Dockerfile          

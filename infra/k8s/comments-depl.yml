@@ -15,7 +15,7 @@ spec:
       containers:
       - name: comments
         image: piercingstripes/comments:latest
-        imagePullPolicy: Always
+        #imagePullPolicy: Always
 
 ---
 apiVersion: v1

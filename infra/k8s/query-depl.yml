@@ -15,7 +15,7 @@ spec:
       containers:
       - name: query
         image: piercingstripes/query:latest
-        imagePullPolicy: Always
+        #imagePullPolicy: Always
 
 ---
 apiVersion: v1

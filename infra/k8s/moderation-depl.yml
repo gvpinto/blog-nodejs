@@ -15,7 +15,7 @@ spec:
       containers:
       - name: moderation
         image: piercingstripes/moderation:latest
-        imagePullPolicy: Always
+        #imagePullPolicy: Always
 
 ---
 apiVersion: v1

@@ -15,7 +15,7 @@ spec:
       containers:
       - name: client
         image: piercingstripes/client:latest
-        imagePullPolicy: Always
+        #imagePullPolicy: Always
 
 ---
 apiVersion: v1
